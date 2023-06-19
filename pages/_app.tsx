@@ -1,11 +1,11 @@
-import '../styles/globals.css';
-import type {AppProps} from 'next/app';
-import Head from 'next/head';
-import {PrivyProvider} from '@privy-io/react-auth';
-import {useRouter} from 'next/router';
+import "../styles/globals.css"
+import type { AppProps } from "next/app"
+import Head from "next/head"
+import { PrivyProvider } from "@privy-io/react-auth"
+import { useRouter } from "next/router"
 
-function MyApp({Component, pageProps}: AppProps) {
-  const router = useRouter();
+function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter()
 
   return (
     <>
@@ -24,13 +24,22 @@ function MyApp({Component, pageProps}: AppProps) {
         <meta name="description" content="Privy Auth Starter" />
       </Head>
       <PrivyProvider
-        appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
-        onSuccess={() => router.push('/dashboard')}
+        createPrivyWalletOnLogin
+        appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ""}
+        config={{
+          appearance: {
+            // This configures your login modal to show wallet login options above other options.
+            showWalletLoginFirst: false,
+          },
+          // This configures wallet, email, Google, and Twitter login for your app.
+          loginMethods: ["wallet", "email", "google", "apple"],
+        }}
+        onSuccess={() => router.push("/dashboard")}
       >
         <Component {...pageProps} />
       </PrivyProvider>
     </>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp
